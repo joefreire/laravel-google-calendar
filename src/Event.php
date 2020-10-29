@@ -38,6 +38,7 @@ class Event
     public static function createFromGoogleCalendarEvent(Google_Service_Calendar_Event $googleEvent, $calendarId)
     {
         //this option are to create a conference and add a link to meet in event
+        
         if(empty($googleEvent->hangoutLink)){
             $googleCalendar = static::getGoogleCalendar();
             if($calendarId == null){

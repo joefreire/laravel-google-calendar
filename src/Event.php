@@ -39,6 +39,9 @@ class Event
     {
         //this option are to create a conference and add a link to meet in event
         $googleCalendar = static::getGoogleCalendar($calendarId);
+        if($calendarId == null){
+            $calendarId =$googleCalendar->getCalendarId();
+        }
         $service = $googleCalendar->getService();
         $conference = new \Google_Service_Calendar_ConferenceData();
         $conferenceRequest = new \Google_Service_Calendar_CreateConferenceRequest();

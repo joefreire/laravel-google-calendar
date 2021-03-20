@@ -15,8 +15,8 @@ class GoogleCalendarFactory
         $client = self::createAuthenticatedGoogleClient($config);
 
         $service = new Google_Service_Calendar($client);
-        if(empty($calendarId)){
-            $calendarId =  self::getCalendarId($service);
+        if (empty($calendarId)) {
+            $calendarId = self::getCalendarId($service);
         }
 
         return self::createCalendarClient($service, $calendarId);
@@ -26,7 +26,7 @@ class GoogleCalendarFactory
     {
         $calendarList = $service->calendarList->listCalendarList();
         foreach ($calendarList as $calendarGoogle) {
-            if($calendarGoogle->accessRole == 'owner'){
+            if ($calendarGoogle->accessRole == 'owner') {
                 return $calendarGoogle->id;
             }
         }

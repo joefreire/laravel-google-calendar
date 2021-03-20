@@ -8,17 +8,29 @@ use Spatie\GoogleCalendar\Exceptions\InvalidConfiguration;
 
 class GoogleCalendarFactory
 {
-    public static function createForCalendarId(string $calendarId): GoogleCalendar
+    public static function createForCalendarId(?string $calendarId): GoogleCalendar
     {
         $config = config('google-calendar');
 
         $client = self::createAuthenticatedGoogleClient($config);
 
         $service = new Google_Service_Calendar($client);
+        if(empty($calendarId)){
+            $calendarId =  self::getCalendarId($service);
+        }
 
         return self::createCalendarClient($service, $calendarId);
     }
 
+    public static function getCalendarId($service)
+    {
+        $calendarList = $service->calendarList->listCalendarList();
+        foreach ($calendarList as $calendarGoogle) {
+            if($calendarGoogle->accessRole == 'owner'){
+                return $calendarGoogle->id;
+            }
+        }
+    }
     public static function createAuthenticatedGoogleClient(array $config): Google_Client
     {
         $authProfile = $config['default_auth_profile'];
@@ -42,6 +54,7 @@ class GoogleCalendarFactory
         ]);
 
         $client->setAuthConfig($authProfile['credentials_json']);
+
 
         return $client;
     }

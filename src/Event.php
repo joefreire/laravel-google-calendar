@@ -91,7 +91,6 @@ class Event
 
     public static function get(CarbonInterface $startDateTime = null, CarbonInterface $endDateTime = null, array $queryParameters = [], string $calendarId = null): Collection
     {
-
         $googleCalendar = static::getGoogleCalendar($calendarId);
 
 
@@ -258,6 +257,7 @@ class Event
     public static function getGoogleCalendarId()
     {
         $googleCalendar = static::getGoogleCalendar();
+
         return $googleCalendar->getCalendarId();
     }
 
